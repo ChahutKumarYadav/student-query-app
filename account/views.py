@@ -21,12 +21,15 @@ def get_tokens_for_user(user):
     }
 
 
-class CreateUser(APIView):
+class CreateUser(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny]
+    http_method_names = ["post"]
+    queryset = User.objects.all()
+    serializer_class = RegistrationSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = RegistrationSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             password = serializer.validated_data.get('password')
             serializer.validated_data['password'] = make_password(password)
@@ -36,16 +39,19 @@ class CreateUser(APIView):
                 "message": "Successfully account created",
                 "user_detail": serializer.data}))
         else:
-            return Response(json.dumps({"success": 0, "message": serializer.errors}))
+            return Response({"success": 0, "message": serializer.errors})
 
 
-class UserProfileView(APIView):
+class UserProfileView(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    http_method_names = ["get"]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
     def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(json.dumps(serializer.data), status=status.HTTP_200_OK)
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CustomAuthToken(ObtainAuthToken):
