@@ -40,6 +40,9 @@ class QLikeSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     q_likes = QLikeSerializer(read_only=True, many=True)
     answered_question = AnswerSerializer(read_only=True, many=True)
+    first_name = serializers.ReadOnlyField(source='user.first_name')
+    last_name = serializers.ReadOnlyField(source='user.last_name')
+
 
     class Meta:
         model = Question
