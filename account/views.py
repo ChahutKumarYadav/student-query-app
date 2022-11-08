@@ -31,8 +31,6 @@ class CreateUser(viewsets.ModelViewSet):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            password = serializer.validated_data.get('password')
-            serializer.validated_data['password'] = make_password(password)
             serializer.save()
             return Response(json.dumps({
                 "success": 1,
