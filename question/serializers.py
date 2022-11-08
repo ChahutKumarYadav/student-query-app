@@ -16,6 +16,8 @@ class CommentLikeSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     c_likes = CommentLikeSerializer(read_only=True, many=True)
+    first_name = serializers.ReadOnlyField(source='user.first_name')
+    last_name = serializers.ReadOnlyField(source='user.last_name')
 
     class Meta:
         model = Comment
@@ -25,6 +27,8 @@ class CommentSerializer(serializers.ModelSerializer):
 class AnswerSerializer(serializers.ModelSerializer):
     a_likes = ALikeSerializer(read_only=True, many=True)
     comments = CommentLikeSerializer(read_only=True, many=True)
+    first_name = serializers.ReadOnlyField(source='user.first_name')
+    last_name = serializers.ReadOnlyField(source='user.last_name')
 
     class Meta:
         model = Answer
