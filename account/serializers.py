@@ -9,6 +9,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+        
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data['password'])
+        return super(RegistrationSerializer, self).create(validated_data)
+
+
 
 
 class UserSerializer(serializers.ModelSerializer):
