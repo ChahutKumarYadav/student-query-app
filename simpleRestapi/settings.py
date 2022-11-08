@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-ysuqywnk+q!^(0-^9!*4clp(@1%*g8geybcia(+04ea!pbyqvc"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["student-query-app.azurewebsites.net"]
 
